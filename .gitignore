@@ -19,3 +19,4 @@ storage/
 .coverage
 coverage/
 database.db
+.DS_Store
