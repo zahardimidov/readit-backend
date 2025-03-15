@@ -29,7 +29,7 @@ class RequestModel(BaseModel):
         super().__init_subclass__(**kwargs)
 
         _fields = get_cls_fields_type(cls)
-        setattr(cls, "fields", _fields)
+        setattr(cls, "fields", _fields)  # noqa: B010
 
 
 class ResponseModel(BaseModel):

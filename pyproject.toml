@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "aiobotocore>=2.21.1",
     "aiogram>=3.18.0",
     "aiogram-dialog>=2.3.1",
     "aiosqlite",
@@ -16,6 +17,7 @@ dependencies = [
     "pytz>=2025.1",
     "sqladmin>=0.20.1",
     "sqlalchemy>=2.0.39",
+    "types-aiobotocore-s3>=2.21.1",
     "uvicorn>=0.34.0",
 ]
 
@@ -46,7 +48,7 @@ select = [
     "C90" # mccabe for complexity
 ]
 
-ignore = ["E402", "UP008"]
+ignore = ["E402", "UP008", 'B008', 'C408']
 
 [tool.ruff.lint.mccabe]
 max-complexity = 8

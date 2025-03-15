@@ -1,4 +1,4 @@
-from typing import Generic, List, Type, TypeVar
+from typing import Generic, TypeVar
 
 from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
@@ -7,7 +7,7 @@ M = TypeVar("M")
 
 
 class BaseRepository(Generic[M]):
-    model: Type[M]
+    model: type[M]
     session: async_sessionmaker[AsyncSession]
 
     async def create(self, **data) -> M:
@@ -24,7 +24,7 @@ class BaseRepository(Generic[M]):
         async with self.session() as session:
             return await session.scalar(select(self.model).where(self.model.id == id))
 
-    async def find(self, limit=None, offset=None, **conditions) -> List[M]:
+    async def find(self, limit=None, offset=None, **conditions) -> list[M]:
         async with self.session() as session:
             items = await session.scalars(
                 select(self.model).filter_by(**conditions).limit(limit).offset(offset)
@@ -37,7 +37,7 @@ class BaseRepository(Generic[M]):
         if results:
             return results[0]
 
-    async def get_all(self, limit=None, offset=None) -> List[M]:
+    async def get_all(self, limit=None, offset=None) -> list[M]:
         async with self.session() as session:
             items = await session.scalars(
                 select(self.model).limit(limit).offset(offset)

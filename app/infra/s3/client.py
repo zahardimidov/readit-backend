@@ -1,6 +1,6 @@
 import json
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator
 
 from aiobotocore.session import get_session
 from botocore.exceptions import ClientError

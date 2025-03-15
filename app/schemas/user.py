@@ -1,4 +1,3 @@
-from typing import Optional
 
 from pydantic import Field
 
@@ -15,5 +14,5 @@ class UserSignInResponse(BaseModel):
 
 class UserMe(BaseModel):
     user_id: int
-    username: Optional[str] = None
+    username: str | None
     first_name: str

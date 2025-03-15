@@ -1,5 +1,6 @@
-from app.infra.database.models import User
 from sqladmin import ModelView
+
+from app.infra.database.models import User
 
 
 class AdminView(ModelView):

@@ -1,6 +1,6 @@
 import uuid
 from datetime import datetime
-from typing import Any, Dict
+from typing import Any
 
 from sqlalchemy import TIMESTAMP, BigInteger, ForeignKey, String, func
 from sqlalchemy.ext.asyncio import AsyncAttrs
@@ -25,7 +25,7 @@ class Base(AsyncAttrs, DeclarativeBase):
         TIMESTAMP(timezone=True), server_default=func.now(), onupdate=func.now()
     )
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {c.name: getattr(self, c.name) for c in self.__table__.columns}
 
 
