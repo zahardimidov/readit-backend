@@ -1,0 +1,53 @@
+import uuid
+from datetime import datetime
+from typing import Any, Dict
+
+from sqlalchemy import TIMESTAMP, BigInteger, ForeignKey, String, func
+from sqlalchemy.ext.asyncio import AsyncAttrs
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
+
+
+def generate_uuid():
+    return str(uuid.uuid4())
+
+
+class Base(AsyncAttrs, DeclarativeBase):
+    __abstract__ = True
+
+    id: Mapped[str] = mapped_column(
+        String, default=generate_uuid, primary_key=True, unique=True
+    )
+
+    created_at: Mapped[datetime] = mapped_column(
+        TIMESTAMP(timezone=True), server_default=func.now()
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        TIMESTAMP(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {c.name: getattr(self, c.name) for c in self.__table__.columns}
+
+
+class User(Base):
+    __tablename__ = 'users'
+
+    id: Mapped[int] = mapped_column(BigInteger, primary_key=True, nullable=False, unique=True)
+    first_name: Mapped[str] = mapped_column(String(120), nullable=False)
+    username: Mapped[str] = mapped_column(String(120), nullable=True)
+    phone: Mapped[str] = mapped_column(String(20), nullable=True)
+
+    def __repr__(self):
+        return f"{self.id} | {self.username} | {self.first_name} | {self.phone}"
+
+
+class Book(Base):
+    __tablename__ = 'books'
+
+    title = mapped_column(String, nullable=False)
+    description = mapped_column(String, nullable=True)
+    author = mapped_column(String, nullable=True)
+    language = mapped_column(String, nullable=True)
+
+    user_id = mapped_column(ForeignKey('users.id'), nullable=False)
+    user: Mapped[User] = relationship()
